@@ -11,6 +11,13 @@
 </head>
 <body>
     <form method="post" action="/user/reg">
+        <%
+            if(errors && errors.password) {
+          %>
+        <div><label><%=errors.password%></label></div>
+        <%
+            }
+          %>
         <div class="form-group">
             <label for="exampleInputEmail1">用户名称</label>
             <input name="username" type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入用户名称">

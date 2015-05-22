@@ -8,6 +8,7 @@ router.get('/', function(req, res) {
 
 // register
 router.get('/reg', function(req, res) {
+    res.locals.errors = "";
     res.render("reg");
 });
 router.post('/reg', function(req, res, next) {
@@ -17,7 +18,9 @@ router.post('/reg', function(req, res, next) {
     if(password === confirm) {
         res.send("success");
     } else {
-        res.render("reg", {errors: {password: "password error!"}});
+        var errors = {password: "password error!"}
+        res.locals.errors = errors;
+        res.render("reg");
     }
 });
 
