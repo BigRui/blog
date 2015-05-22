@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var validator = require("validator");
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -12,15 +13,27 @@ router.get('/reg', function(req, res) {
     res.render("reg");
 });
 router.post('/reg', function(req, res, next) {
+    var errors = {};
+
     var username = req.body.username;
     var password = req.body.password;
     var confirm = req.body.confirm;
-    if(password === confirm) {
-        res.send("success");
+
+//    console.log(validator.isLength(username, 5, 18));
+    if(!validator.isLength(username, 5, 18)) {
+        errors.username = "username string >5 <10";
+    }
+    if(!validator.isLength(password, 5, 18) ) {
+        errors.password = "password string >5 <10";
+    }
+    if(password !== confirm) {
+        errors.confirm = "confirm password must === password";
+    }
+
+    if(Object.keys(errors).length  > 0) {
+        res.render("reg", {errors: errors});
     } else {
-        var errors = {password: "password error!"}
-        res.locals.errors = errors;
-        res.render("reg");
+        res.send("reg success");
     }
 });
 
