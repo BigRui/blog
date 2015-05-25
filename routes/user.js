@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var validator = require("validator");
+var uid = require("shortid")
+
+global.users = [];
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -33,8 +36,20 @@ router.post('/reg', function(req, res, next) {
     if(Object.keys(errors).length  > 0) {
         res.render("reg", {errors: errors});
     } else {
-        res.send("reg success");
+        var id = uid();
+        var user = {
+            id: id,
+            username: username,
+            password: password
+        }
+        global.users.push(user);
+//        res.send("reg success");
+        res.redirect("/user/list");
     }
+});
+
+router.get("/list", function(req, res) {
+    res.render("list", {users: global.users});
 });
 
 module.exports = router;
