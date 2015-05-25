@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var validator = require("validator");
-var uid = require("shortid")
+var uid = require("shortid");
 
-global.users = [];
+var User = require("../model/User.js");
+
+//global.users = [];
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -36,20 +38,27 @@ router.post('/reg', function(req, res, next) {
     if(Object.keys(errors).length  > 0) {
         res.render("reg", {errors: errors});
     } else {
-        var id = uid();
-        var user = {
-            id: id,
-            username: username,
-            password: password
-        }
-        global.users.push(user);
+//        var id = uid();
+//        var user = {
+//            id: id,
+//            username: username,
+//            password: password
+//        }
+//        global.users.push(user);
 //        res.send("reg success");
+        var user = new User({username: username, password: password});
+        user.save();
         res.redirect("/user/list");
     }
 });
 
 router.get("/list", function(req, res) {
-    res.render("list", {users: global.users});
+//    res.render("list", {users: global.users});
+    User.find({}, function(err, result) {
+//        console.log(result);
+//        res.send();
+        res.render("list", {users: result});
+    });
 });
 
 router.get("/login", function(req, res) {
@@ -61,21 +70,29 @@ router.post("/login", function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
 
-    // 临时验证 (注:forEach不能break跳出循环)
-    var pass = false;
-    global.users.forEach(function(user) {
-        if(username === user.username && password === user.password) {
-            pass = true;
+//    // 临时验证 (注:forEach不能break跳出循环)
+//    var pass = false;
+//    global.users.forEach(function(user) {
+//        if(username === user.username && password === user.password) {
+//            pass = true;
+//        }
+//    });
+//
+//    if(pass) {
+//        res.send("login success!");
+//        // session
+//    } else {
+////        res.send("login false!");
+//        res.render("login", {error: true});
+//    }
+
+    User.findOne({username: username, password: password}, function(err, user) {
+        if(user) {
+            res.send("login success!");
+        } else {
+            res.render("login", {error: true});
         }
     });
-
-    if(pass) {
-        res.send("login success!");
-        // session
-    } else {
-//        res.send("login false!");
-        res.render("login", {error: true});
-    }
 });
 
 module.exports = router;
