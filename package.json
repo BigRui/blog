@@ -16,6 +16,7 @@
     "validator": "~3.40.0",
     "shortid": "~2.2.2",
     "mongoose": "~4.0.3",
-    "bson": "~0.3.2"
+    "bson": "~0.3.2",
+    "express-session": "~1.11.2"
   }
 }

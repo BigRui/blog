@@ -9,7 +9,8 @@ var User = require("../model/User.js");
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-  res.send('respond with a resource');
+//  res.send('respond with a resource');
+    res.render("index", {user: req.session.user || {}});
 });
 
 // register
@@ -88,7 +89,9 @@ router.post("/login", function(req, res) {
 
     User.findOne({username: username, password: password}, function(err, user) {
         if(user) {
-            res.send("login success!");
+//            res.send("login success!");
+            req.session.user = user;
+            res.redirect("/user");
         } else {
             res.render("login", {error: true});
         }
