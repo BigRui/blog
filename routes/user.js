@@ -98,4 +98,49 @@ router.post("/login", function(req, res) {
     });
 });
 
+// 更改密码
+router.get("/uppwd", function(req, res) {
+    if(req.session.user) {
+        res.render("uppwd", {user: req.session.user, errors: {}});
+    } else {
+        res.render("login");
+    }
+});
+
+router.post("/uppwd", function (req, res) {
+    if(req.session.user) {
+        var oldPassword = req.body.oldPassword;
+        var newPassword = req.body.newPassword;
+        var confirm = req.body.confirm;
+
+        if(req.session.user.password === oldPassword) {
+
+            var errors = {};
+
+            if(!validator.isLength(newPassword, 5, 18) ) {
+                errors.newPassword = "password string >5 <10";
+            }
+            if(newPassword !== confirm) {
+                errors.confirm = "confirm password must === password";
+            }
+
+            if(Object.keys(errors).length  > 0) {
+                res.render("uppwd", {user: req.session.user, errors: errors});
+            } else {
+                User.findOne({username: req.session.user.username}, function (err, user) {
+                    user.password = newPassword;
+                    user.save();
+                    res.redirect("/user");
+                });
+            }
+        } else {
+            var errors = {};
+            errors.oldPassword = "旧密码错误";
+            res.render("uppwd", {user: req.session.user, errors: errors});
+        }
+    } else {
+        res.render("login");
+    }
+});
+
 module.exports = router;

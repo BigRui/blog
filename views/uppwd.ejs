@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    更改<%=user.username%>密码:
+    <form method="post" action="/user/uppwd">
+        <div class="form-group">
+            <label for="exampleInputPassword1">旧密码</label>
+            <input name="oldPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="请输入用户密码">
+            <%
+            if(errors && errors.oldPassword) {
+            %>
+            <div><label><%=errors.oldPassword%></label></div>
+            <%
+            }
+            %>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">用户密码</label>
+            <input name="newPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="请输入新密码">
+            <%
+                if(errors && errors.newPassword) {
+            %>
+                    <div><label><%=errors.newPassword%></label></div>
+            <%
+                }
+            %>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">确认密码</label>
+            <input name="confirm" type="password" class="form-control" id="exampleInputPassword1" placeholder="请确认新用户密码">
+            <%
+                if(errors && errors.confirm) {
+            %>
+                    <div><label><%=errors.confirm%></label></div>
+            <%
+                }
+            %>
+        </div>
+        <button type="submit" class="btn btn-default">更改密码</button>
+    </form>
+</body>
+</html>
