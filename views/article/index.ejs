@@ -8,7 +8,7 @@
     <p>文章列表</p>
     <ul>
       <% articles.forEach(function (article) { %>
-      <li><%=article.title%></li>
+      <li><%=article.title%><a href="/article/del?id=<%=article._id%>">删除</a></li>
       <% });%>
     </ul>
   </body>

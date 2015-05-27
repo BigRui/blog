@@ -23,4 +23,12 @@ router.post("/create", function (req, res) {
     res.redirect("/article");
 });
 
+router.get("/del", function (req, res) {
+    var aid = req.query.id;
+//    console.log(aid);
+    Article.remove({_id: aid}, function () {
+        res.redirect("/article");
+    });
+});
+
 module.exports = router;
