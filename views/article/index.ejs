@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel='stylesheet' href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+  </head>
+  <body>
+    <p>文章列表</p>
+    <ul>
+      <% articles.forEach(function (article) { %>
+      <li><%=article.title%></li>
+      <% });%>
+    </ul>
+  </body>
+</html>

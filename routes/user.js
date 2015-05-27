@@ -3,7 +3,7 @@ var router = express.Router();
 var validator = require("validator");
 var uid = require("shortid");
 
-var User = require("../model/User.js");
+var User = require("../model").User;
 
 //global.users = [];
 
